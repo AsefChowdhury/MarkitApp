@@ -64,11 +64,7 @@ If you would like to contribute to the Markit project, please follow these guide
 _Version 1.0.0 (Initial release)_
 - Launch of the Markit app with basic features.
 
-_Future updates will be documented here._
-
 ## FAQ
-
-_This section can include frequently asked questions and their answers._
 
 ## License
 
