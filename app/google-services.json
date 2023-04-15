@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "936637567536",
+    "project_id": "markit-4719c",
+    "storage_bucket": "markit-4719c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936637567536:android:185ef444896d2816e393f5",
+        "android_client_info": {
+          "package_name": "com.example.markit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "936637567536-mrdkvkidte83bac2qe93fviiqoqqfdum.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqnUyr1mdD38enFOkzBcrbLTlYWrXfrMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "936637567536-mrdkvkidte83bac2qe93fviiqoqqfdum.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

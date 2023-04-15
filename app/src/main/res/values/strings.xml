@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Markit</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="login_to_continue">Login to continue</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="add_image">Add Image</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_user">Select User</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="aboutys1">We are a small team trying to help the community grow their money through investing. We have accomplished this by providing investors with the latest news in the financial market and the latest information on a particular stock or stock exchange</string>
+    <string name="aboutus2">What makes us different than others? We believe in sharing knowledge and experience. That\'s why we provide our users to communicate with each other through an in built app messaging feature. This will allow you to talk to other investors and learn from their experience, get to know what their opinion is on a recent news or their thoughts on a stock.</string>
+</resources>
