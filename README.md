@@ -1,6 +1,6 @@
 # Markit: The Ultimate Investment Companion
 
-![Markit Logo](Markit_Logo.png)
+![Markit Logo](Markit%20Logo.png)
 
 ## Table of Contents
 
@@ -87,9 +87,6 @@ If you are a developer and would like to contribute to the Markit project, follo
 
 6. Once the project is set up, you can build and run the app on an Android emulator or a physical device connected to your computer.
 
-7. To contribute your changes, create a new branch, make your changes, commit them to your branch, and create a pull request as described in the [Contribution Guidelines](#contribution-guidelines).
-
-Feel free to report any issues you encounter during the development setup process or submit improvements to the documentation.
 
 ## Contribution Guidelines
 
