@@ -1,5 +1,5 @@
 # Markit: The Ultimate Investment Companion
-
+![Markit Logo](Markit Logo.png)
 ## Table of Contents
 - [Description](#description)
 - [Installation](#installation)
