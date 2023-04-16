@@ -16,11 +16,9 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.markit.R;
-import com.example.markit.databinding.ActivitySignInBinding;
 import com.example.markit.databinding.ActivitySignUpBinding;
 import com.example.markit.utilities.Constants;
-import com.example.markit.utilities.PerferenceManager;
+import com.example.markit.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -33,7 +31,7 @@ import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
     private ActivitySignUpBinding binding;
-    private PerferenceManager perferenceManager;
+    private PreferenceManager preferenceManager;
     private String encodedImage;
 
     @Override
@@ -41,7 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        perferenceManager = new PerferenceManager(getApplicationContext());
+        preferenceManager = new PreferenceManager(getApplicationContext());
         setListeners();
 
     }
@@ -97,12 +95,12 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         loading(false);
-                        perferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                        perferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-                        perferenceManager.putString(Constants.KEY_NAME, name);
-                        perferenceManager.putString(Constants.KEY_EMAIL, email);
-                        perferenceManager.putString(Constants.KEY_PASSWORD, password);
-                        perferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
+                        preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                        preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+                        preferenceManager.putString(Constants.KEY_NAME, name);
+                        preferenceManager.putString(Constants.KEY_EMAIL, email);
+                        preferenceManager.putString(Constants.KEY_PASSWORD, password);
+                        preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
 
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

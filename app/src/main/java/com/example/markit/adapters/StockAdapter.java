@@ -1,13 +1,10 @@
 package com.example.markit.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,24 +12,20 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.markit.R;
-import com.example.markit.listeners.StockListenr;
+import com.example.markit.listeners.StockListener;
 import com.example.markit.models.Stock;
-import com.example.markit.utilities.GetStockLogo;
-import com.example.markit.utilities.GetStockPrice;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewHolder> {
     Context context;
     List<Stock> stockList;
-    StockListenr stockListenr;
+    StockListener stockListener;
 
-    public StockAdapter(Context context, List<Stock> stockList, StockListenr stockListenr) {
+    public StockAdapter(Context context, List<Stock> stockList, StockListener stockListener) {
         this.context = context;
         this.stockList = stockList;
-        this.stockListenr = stockListenr;
+        this.stockListener = stockListener;
 
     }
 
@@ -52,7 +45,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewHolder
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.stock_recycler_view_row, parent, false);
 
-        return new StockAdapter.MyViewHolder(view, stockListenr);
+        return new StockAdapter.MyViewHolder(view, stockListener);
     }
 
     @Override
@@ -83,7 +76,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewHolder
         CardView cardView;
 
 
-        public MyViewHolder(@NonNull View itemView, StockListenr stockListenr) {
+        public MyViewHolder(@NonNull View itemView, StockListener stockListener) {
             super(itemView);
 
             textName = itemView.findViewById(R.id.textName);
@@ -93,10 +86,10 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (stockListenr != null) {
+                    if (stockListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            stockListenr.onItemClick(position);
+                            stockListener.onItemClick(position);
                         }
                     }
 

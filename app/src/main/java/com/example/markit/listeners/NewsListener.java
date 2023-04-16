@@ -1,5 +1,8 @@
 package com.example.markit.listeners;
 
+import com.example.markit.NewsModels.Article;
+
 public interface NewsListener {
-    void onNewsClick(int position);
+
+    void onItemClicked(Article article);
 }

@@ -1,6 +1,5 @@
 package com.example.markit.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,17 +8,13 @@ import android.view.View;
 
 import com.example.markit.R;
 import com.example.markit.adapters.UsersAdapter;
-import com.example.markit.databinding.ActivitySignInBinding;
 import com.example.markit.databinding.ActivityUserBinding;
 import com.example.markit.listeners.UserListener;
 import com.example.markit.models.User;
 import com.example.markit.utilities.Constants;
-import com.example.markit.utilities.PerferenceManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.markit.utilities.PreferenceManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +22,7 @@ import java.util.List;
 public class UserActivity extends AppCompatActivity implements UserListener {
 
     private ActivityUserBinding binding;
-    private PerferenceManager perferenceManager;
+    private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +30,7 @@ public class UserActivity extends AppCompatActivity implements UserListener {
         binding = ActivityUserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        perferenceManager = new PerferenceManager(getApplicationContext());
+        preferenceManager = new PreferenceManager(getApplicationContext());
         setListeners();
         getUsers();
     }
@@ -67,7 +62,7 @@ public class UserActivity extends AppCompatActivity implements UserListener {
                 .get()
                 .addOnCompleteListener(task -> {
                     loading(false);
-                    String currentUserId = perferenceManager.getString(Constants.KEY_USER_ID);
+                    String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
 
                     if (task.isSuccessful() && task.getResult() != null) {
                         List<User> users = new ArrayList<>();

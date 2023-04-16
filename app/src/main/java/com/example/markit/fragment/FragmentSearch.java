@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -15,22 +14,16 @@ import android.view.ViewGroup;
 import com.example.markit.R;
 import com.example.markit.activities.StockInformation;
 import com.example.markit.adapters.StockAdapter;
-import com.example.markit.listeners.StockListenr;
+import com.example.markit.listeners.StockListener;
 import com.example.markit.models.Stock;
-import com.example.markit.utilities.GetStockLogo;
 import com.example.markit.utilities.GetStockNameDataTask;
-import com.example.markit.utilities.GetStockPrice;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-public class FragmentSearch extends Fragment implements StockListenr {
+public class FragmentSearch extends Fragment implements StockListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
