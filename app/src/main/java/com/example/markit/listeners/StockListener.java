@@ -1,5 +1,5 @@
 package com.example.markit.listeners;
 
-public interface StockListenr {
+public interface StockListener {
     void onItemClick(int position);
 }

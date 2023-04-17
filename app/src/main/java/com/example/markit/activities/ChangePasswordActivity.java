@@ -6,15 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.example.markit.R;
 import com.example.markit.databinding.ActivityChangePasswordBinding;
 import com.example.markit.utilities.Constants;
-import com.example.markit.utilities.PerferenceManager;
+import com.example.markit.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -27,14 +25,14 @@ import java.util.Map;
 public class ChangePasswordActivity extends AppCompatActivity {
 
     ActivityChangePasswordBinding binding;
-    PerferenceManager perferenceManager;
+    PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityChangePasswordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        perferenceManager = new PerferenceManager(getApplicationContext());
+        preferenceManager = new PreferenceManager(getApplicationContext());
         setListeners();
 
 
@@ -69,7 +67,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     private void changePassword(String newPassword) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        String userId = perferenceManager.getString(Constants.KEY_USER_ID);
+        String userId = preferenceManager.getString(Constants.KEY_USER_ID);
         DocumentReference userRef = database.collection(Constants.KEY_COLLECTION_USERS).document(userId);
 
         Map<String, Object> data = new HashMap<>();
@@ -116,7 +114,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         showToast("Signing Out");
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(
-                perferenceManager.getString(Constants.KEY_USER_ID)
+                preferenceManager.getString(Constants.KEY_USER_ID)
         );
 
         HashMap<String, Object> data = new HashMap<>();
@@ -125,7 +123,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        perferenceManager.clear();
+                        preferenceManager.clear();
                         Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
                         startActivity(intent);
                         finish();

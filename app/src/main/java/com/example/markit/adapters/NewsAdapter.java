@@ -4,101 +4,56 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.markit.NewsModels.Article;
 import com.example.markit.R;
 import com.example.markit.listeners.NewsListener;
-import com.example.markit.models.News;
+import com.example.markit.utilities.CustomViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<CustomViewHolder>{
 
-    Context context;
-    List<News> articles;
-    NewsListener newsListener;
+    private Context context;
+    private List<Article> Articles;
 
-    public NewsAdapter(Context context, List<News> articles, NewsListener newsListener) {
-        this.newsListener = newsListener;
+    private NewsListener listener;
+    public NewsAdapter(Context context, List<Article> Articles, NewsListener listener) {
         this.context = context;
-        this.articles = articles;
-    }
-
-    public void setArticles(List<News> articles) {
-        this.articles = articles;
-        notifyDataSetChanged();
+        this.Articles = Articles;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
-    public NewsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.news_recycler_view_row, parent, false);
-
-        return new NewsAdapter.MyViewHolder(view, newsListener);
+    public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.news_card, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsAdapter.MyViewHolder holder, int position) {
-        String headline = articles.get(position).headline.trim();
-        String author = articles.get(position).authour.trim();
-        String source = articles.get(position).source.trim();
-        String publishDate = articles.get(position).publishedAt.trim();
+    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+        holder.title.setText(Articles.get(position).getTitle());
+        holder.source.setText(Articles.get(position).getSource().getName());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClicked(Articles.get(position));
+            }
+        });
 
-        holder.textHeadline.setText(headline);
-        holder.textAuthor.setText(author);
-        holder.textSource.setText(source);
-        holder.textPublish.setText(publishDate);
-
-        holder.cardView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.zoom_out_slide));
-
+        if (Articles.get(position).getUrlToImage() != null && !Articles.get(position).getUrlToImage().isEmpty()){
+            Picasso.get().load(Articles.get(position).getUrlToImage()).into(holder.image);
+        }else{
+            holder.image.setImageResource(android.R.color.transparent);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return articles.size();
-    }
-
-
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-
-        TextView textHeadline;
-        TextView textAuthor;
-        TextView textSource;
-        TextView textPublish;
-        CardView cardView;
-
-        public MyViewHolder(@NonNull View itemView, NewsListener newsListener) {
-            super(itemView);
-
-            textHeadline = itemView.findViewById(R.id.textHeadline);
-            textAuthor = itemView.findViewById(R.id.textAuthor);
-            textSource = itemView.findViewById(R.id.textSource);
-            textPublish = itemView.findViewById(R.id.textPublishedDate);
-            cardView = itemView.findViewById(R.id.cardView);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (newsListener != null) {
-                        int pos = getAdapterPosition();
-
-                        if (pos != RecyclerView.NO_POSITION) {
-                            newsListener.onNewsClick(pos);
-                        }
-                    }
-                }
-            });
-
-        }
-
-
-
+        return Articles.size();
     }
 }
-

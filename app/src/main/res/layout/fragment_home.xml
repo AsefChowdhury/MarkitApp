@@ -3,13 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".fragment.FragmentHome">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <androidx.appcompat.widget.SearchView
+        android:layout_margin="14dp"
+        android:background="@drawable/search_view_design"
+        android:id="@+id/search_view"
+        app:defaultQueryHint="Search for an article..."
+        app:iconifiedByDefault="false"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Fragment Home"
-        android:gravity="center" />
+        android:layout_height="?attr/actionBarSize">
+
+    </androidx.appcompat.widget.SearchView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_main"
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

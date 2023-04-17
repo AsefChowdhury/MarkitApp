@@ -13,7 +13,6 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +23,7 @@ import com.example.markit.activities.ChangeNameActivity;
 import com.example.markit.activities.ChangePasswordActivity;
 import com.example.markit.activities.SignInActivity;
 import com.example.markit.utilities.Constants;
-import com.example.markit.utilities.PerferenceManager;
+import com.example.markit.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
@@ -47,7 +46,7 @@ public class FragmentSettings extends Fragment {
     private String mParam2;
 
 
-    private PerferenceManager perferenceManager;
+    private PreferenceManager preferenceManager;
 
     public FragmentSettings() {
     }
@@ -69,7 +68,7 @@ public class FragmentSettings extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        perferenceManager = new PerferenceManager(getContext());
+        preferenceManager = new PreferenceManager(getContext());
 
 
     }
@@ -139,9 +138,9 @@ public class FragmentSettings extends Fragment {
         RoundedImageView imageProfile = (RoundedImageView) view.findViewById(R.id.imageProfile);
         TextView textEmail = (TextView) view.findViewById(R.id.textEmail);
 
-        String name = perferenceManager.getString(Constants.KEY_NAME);
-        String email = perferenceManager.getString(Constants.KEY_EMAIL);
-        String undecodedImage = perferenceManager.getString(Constants.KEY_IMAGE);
+        String name = preferenceManager.getString(Constants.KEY_NAME);
+        String email = preferenceManager.getString(Constants.KEY_EMAIL);
+        String undecodedImage = preferenceManager.getString(Constants.KEY_IMAGE);
         byte[] decodedImageArr = Base64.decode(undecodedImage, Base64.DEFAULT);
         Bitmap image = BitmapFactory.decodeByteArray(decodedImageArr, 0, decodedImageArr.length);
 
@@ -167,7 +166,7 @@ public class FragmentSettings extends Fragment {
     private void updateToken(String token) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(
-                perferenceManager.getString(Constants.KEY_USER_ID)
+                preferenceManager.getString(Constants.KEY_USER_ID)
         );
 
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
@@ -189,7 +188,7 @@ public class FragmentSettings extends Fragment {
         showToast("Signing Out");
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(
-                perferenceManager.getString(Constants.KEY_USER_ID)
+                preferenceManager.getString(Constants.KEY_USER_ID)
         );
 
         HashMap<String, Object> data = new HashMap<>();
@@ -198,7 +197,7 @@ public class FragmentSettings extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        perferenceManager.clear();
+                        preferenceManager.clear();
                         Intent intent = new Intent(getView().getContext(), SignInActivity.class);
                         startActivity(intent);
                         getActivity().finish();

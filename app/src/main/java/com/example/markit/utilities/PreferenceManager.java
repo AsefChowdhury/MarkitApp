@@ -5,10 +5,10 @@ import android.content.SharedPreferences;
 
 import java.util.Map;
 
-public class PerferenceManager {
+public class PreferenceManager {
     private final SharedPreferences sharedPreferences;
 
-    public PerferenceManager(Context context) {
+    public PreferenceManager(Context context) {
         sharedPreferences = context.getSharedPreferences(Constants.KEY_PREFERENCE_NAME, Context.MODE_PRIVATE);
     }
 

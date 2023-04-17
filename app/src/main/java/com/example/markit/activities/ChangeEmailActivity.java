@@ -11,10 +11,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.example.markit.R;
 import com.example.markit.databinding.ActivityChangeEmailBinding;
 import com.example.markit.utilities.Constants;
-import com.example.markit.utilities.PerferenceManager;
+import com.example.markit.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -27,7 +26,7 @@ import java.util.Map;
 public class ChangeEmailActivity extends AppCompatActivity {
 
     ActivityChangeEmailBinding binding;
-    PerferenceManager perferenceManager;
+    PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
         binding = ActivityChangeEmailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        perferenceManager = new PerferenceManager(getApplicationContext());
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
         setListeners();
 
@@ -89,7 +88,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
 
     private void changeEmail(String newEmail) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        String userId = perferenceManager.getString(Constants.KEY_USER_ID).toString();
+        String userId = preferenceManager.getString(Constants.KEY_USER_ID).toString();
         DocumentReference userRef = database.collection(Constants.KEY_COLLECTION_USERS).document(userId);
 
         Map<String, Object> data = new HashMap<>();
@@ -121,7 +120,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
         showToast("Signing Out");
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(
-                perferenceManager.getString(Constants.KEY_USER_ID)
+                preferenceManager.getString(Constants.KEY_USER_ID)
         );
 
         HashMap<String, Object> data = new HashMap<>();
@@ -130,7 +129,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        perferenceManager.clear();
+                        preferenceManager.clear();
                         Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
                         startActivity(intent);
                         finish();

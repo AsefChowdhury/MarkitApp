@@ -26,7 +26,7 @@ import com.example.markit.listeners.ConversionListener;
 import com.example.markit.models.ChatMessage;
 import com.example.markit.models.User;
 import com.example.markit.utilities.Constants;
-import com.example.markit.utilities.PerferenceManager;
+import com.example.markit.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,10 +40,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.ObjIntConsumer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +56,7 @@ public class FragmentMessage extends Fragment implements ConversionListener {
     private String mParam1;
     private String mParam2;
 
-    private PerferenceManager perferenceManager;
+    private PreferenceManager preferenceManager;
     private List<ChatMessage> conversations;
     private RecentConversationsAdapter conversationsAdapter;
     private FirebaseFirestore database;
@@ -84,7 +82,7 @@ public class FragmentMessage extends Fragment implements ConversionListener {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        perferenceManager = new PerferenceManager(getContext());
+        preferenceManager = new PreferenceManager(getContext());
     }
 
     @Override
@@ -130,10 +128,10 @@ public class FragmentMessage extends Fragment implements ConversionListener {
 
     private void listenConversation() {
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
-                .whereEqualTo(Constants.KEY_SENDER_ID, perferenceManager.getString(Constants.KEY_USER_ID))
+                .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
                 .addSnapshotListener(eventListener);
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
-                .whereEqualTo(Constants.KEY_RECEIVER_ID, perferenceManager.getString(Constants.KEY_USER_ID))
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
                 .addSnapshotListener(eventListener);
     }
 
@@ -151,7 +149,7 @@ public class FragmentMessage extends Fragment implements ConversionListener {
                         ChatMessage chatMessage = new ChatMessage();
                         chatMessage.senderId = senderId;
                         chatMessage.receiverId = recieverId;
-                        if (perferenceManager.getString(Constants.KEY_USER_ID).equals(senderId)) {
+                        if (preferenceManager.getString(Constants.KEY_USER_ID).equals(senderId)) {
                             chatMessage.conversionImage = documentChange.getDocument().getString(Constants.KEY_RECIEVER_IMAGE);
                             chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME);
                             chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
@@ -201,7 +199,7 @@ public class FragmentMessage extends Fragment implements ConversionListener {
     private void updateToken(String token) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(
-                perferenceManager.getString(Constants.KEY_USER_ID)
+                preferenceManager.getString(Constants.KEY_USER_ID)
         );
 
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
@@ -223,8 +221,8 @@ public class FragmentMessage extends Fragment implements ConversionListener {
         TextView textName = (TextView) view.findViewById(R.id.textName);
         RoundedImageView imageProfile = (RoundedImageView) view.findViewById(R.id.imageProfile);
 
-        String name = perferenceManager.getString(Constants.KEY_NAME);
-        String undecodedImage = perferenceManager.getString(Constants.KEY_IMAGE);
+        String name = preferenceManager.getString(Constants.KEY_NAME);
+        String undecodedImage = preferenceManager.getString(Constants.KEY_IMAGE);
         byte[] decodedImageArr = Base64.decode(undecodedImage, Base64.DEFAULT);
         Bitmap image = BitmapFactory.decodeByteArray(decodedImageArr, 0, decodedImageArr.length);
 
