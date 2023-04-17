@@ -28,6 +28,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity {
     private ActivitySignUpBinding binding;
@@ -76,7 +78,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signUp() {
-        loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         HashMap<String, Object> data = new HashMap<>();
 
@@ -84,38 +85,42 @@ public class SignUpActivity extends AppCompatActivity {
         String email = binding.inputEmail.getText().toString();
         String password = binding.inputPassword.getText().toString();
 
-        data.put(Constants.KEY_NAME, name);
-        data.put(Constants.KEY_EMAIL, email);
-        data.put(Constants.KEY_PASSWORD, password);
-        data.put(Constants.KEY_IMAGE, encodedImage);
+        if (validPassword(password) == true) {
+            loading(true);
+            data.put(Constants.KEY_NAME, name);
+            data.put(Constants.KEY_EMAIL, email);
+            data.put(Constants.KEY_PASSWORD, password);
+            data.put(Constants.KEY_IMAGE, encodedImage);
 
-        database.collection(Constants.KEY_COLLECTION_USERS)
-                .add(data)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        loading(false);
-                        preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                        preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-                        preferenceManager.putString(Constants.KEY_NAME, name);
-                        preferenceManager.putString(Constants.KEY_EMAIL, email);
-                        preferenceManager.putString(Constants.KEY_PASSWORD, password);
-                        preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
+            database.collection(Constants.KEY_COLLECTION_USERS)
+                    .add(data)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            loading(false);
+                            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                            preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+                            preferenceManager.putString(Constants.KEY_NAME, name);
+                            preferenceManager.putString(Constants.KEY_EMAIL, email);
+                            preferenceManager.putString(Constants.KEY_PASSWORD, password);
+                            preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
 
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        loading(false);
-                        showToast(e.getMessage());
-                    }
-                });
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            loading(false);
+                            showToast(e.getMessage());
+                        }
+                    });
 
-
+        } else {
+            Toast.makeText(this, "Invalid Password!", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -193,5 +198,12 @@ public class SignUpActivity extends AppCompatActivity {
             binding.buttonSignUp.setVisibility(View.VISIBLE);
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public static boolean validPassword(String pwd) {
+        Pattern pattern = Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@#?$%^&+=!]).*$");
+        Matcher matcher = pattern.matcher(pwd);
+        boolean correct = matcher.find();
+        return correct;
     }
 }
