@@ -37,7 +37,7 @@ To install Markit on your Android device or using an Android emulator like BlueS
 
 1. Click on the link below to download the Markit APK file:
 
-   [Download Markit APK](app/release/Markit.apk)
+   [Download Markit APK](https://drive.google.com/uc?id=1F_rSkn12hISfyFKBnS7YcZksaLe6NpyS&export=download)
 
 2. Once the APK file is downloaded, locate it in your device's "Downloads" folder.
 
